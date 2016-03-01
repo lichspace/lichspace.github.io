@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>animation-timing-function</title>
+    <style type="text/css">
+        *{margin: 0;padding: 0;font-family: '微软雅黑';line-height: 2}
+        body{padding: 20px;}
+        div.yanshi{position:fixed;right: 0;top:0;margin:50px;width: 200px;background: none;outline: 3px solid #3b80f3;padding: 10px;height: auto}
+        canvas{border-left: 1px solid #3b80f3;border-bottom: 1px solid #3b80f3;background: #f1f1f1;}
+        div{width: 100px;height: 100px;background: #3b80f3;transition: all 0.2s step-start}
+        div.second{background: #f3da3a;transition: none}
+        div.third{background: #f33944 }
+        div.hover{transform:translateX(400px);}
+    </style>
+</head>
+<body>
+    <div class="yanshi">
+        <canvas width="100" height="100"></canvas>
+        x1 <input type="range" min="0" max="100" ><br>
+        y1 <input type="range" min="0" max="100" ><br>
+        x2 <input type="range" min="0" max="100" ><br>
+        y2 <input type="range" min="0" max="100" ><br>
+        贝塞尔值：<span id="beisaierv"></span>
+    </div>
+    <script>
+        window.requestAnimFrame = (function() {
+            return window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function(callback) {
+                        window.setTimeout(callback, 1000 / 60);
+                    };
+        })();
+        var ctx = document.querySelector('canvas').getContext('2d');
+        function yanshi(x1,y1,x2,y2){
+            ctx.clearRect(0,0,100,100);
+            document.getElementById('beisaierv').innerHTML = Array.prototype.slice.call(arguments).join(', ');
+            //坐标系转换
+            x1*=100;
+            y1 = 100-y1*100;
+            x2*=100;
+            y2 =100-y2*100;
+
+            ctx.fillRect(x1,y1,3,3);
+            ctx.fillRect(x2,y2,3,3);
+            ctx.fillStyle = 'red';
+
+            ctx.beginPath();
+            ctx.moveTo(0,100);
+            ctx.bezierCurveTo(x1,y1,x2,y2,100,0);
+            ctx.stroke();
+        }
+
+
+        yanshi(0.45, 0.7, 0.5, 0.2);
+        //实时监测数据变动
+        function anim() {
+            var ranges = document.querySelectorAll('input[type="range"]');
+            ranges = Array.prototype.slice.call(ranges);
+            var para = [];
+            ranges.forEach(function(el){
+                para.push(el.value/100);
+            });
+            yanshi.apply(null,para);
+            window.requestAnimFrame(anim);
+        }
+        anim();
+    </script>
+
+    <div class="first"></div>
+    <div class="second"></div>
+    <div class="third"></div>
+    <script type="text/javascript">
+        document.querySelector('div.first').addEventListener('click',function (e) {
+            this.classList.toggle('hover');
+        },false);
+        //js模拟实现
+        var obj = document.querySelector('div.second');
+        var obj2 = document.querySelector('div.third');
+        var time;
+        //缓动函数集合
+        //t: current time, b: begInnIng value, c: change In value, d: duration
+        var timeFunction = {
+            linear:function(t,b,c,d){
+                return c*t/d+b;
+            },
+            easeInQuad: function (t, b, c, d) {
+                return c*(t/=d)*t + b;
+            },
+            easeOutQuad: function (t, b, c, d) {
+                return -c *(t/=d)*(t-2) + b;
+            },
+            easeInCubic: function (t, b, c, d) {
+                return c*(t/=d)*t*t + b;
+            },
+            easeInSine: function (t, b, c, d) {
+                return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
+            }
+        }
+        //缓动函数
+        var n = 0;
+        var time_dd = 12;
+        //注册一个动画
+        var queues = [
+            {
+                obj:obj,
+                timer:300,
+                jtimer:300,
+                width:400,
+                ing:false,
+                func:timeFunction.easeInSine
+            },
+            {
+                obj:obj2,
+                timer:300,
+                jtimer:300,
+                width:400,
+                ing:false,
+                func:timeFunction.easeOutQuad
+            }
+        ];
+
+        function animates(){
+            for(var i=0;i<queues.length;i++){
+                animate(queues[i]);
+            }
+        }
+
+        function animate(opt){
+            opt.timer-= time_dd;
+            if(opt.timer<0){
+                opt.obj.style.transform = 'translateX('+opt.width+'px)';
+                return;
+            }else{
+                //console.log(opt.width*(1-opt.timer/opt.jtimer));
+                opt.obj.style.transform = 'translateX('+opt.func(opt.jtimer-opt.timer,0,opt.width,opt.jtimer)+'px)';
+            }
+        }
+
+        setInterval(function(e){
+            animates(n);
+            n++;
+        },time_dd);
+    </script>
+
+    <h2>参考资料</h2>
+    <a href="http://www.cnblogs.com/hnfxs/p/3148483.html">贝塞尔曲线原理(简单阐述)</a><br>
+    <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/timing-function">MDN</a><br>
+    <a href="https://github.com/gdsmith/jquery.easing/blob/master/jquery.easing.js">jquery.easing.js源码</a><br>
+    <a href="http://hushicai.com/2014/03/01/jquery-dong-hua-shi-xian-yuan-li.html">jquery动画实现原理</a>
+
+
+</body>
+</html><!--[if !IE]>|xGv00|9b2bd6f2f1eae6c8214ebe43b563d2f4<![endif]-->
