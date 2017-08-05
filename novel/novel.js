@@ -3,7 +3,11 @@
  */
 require('./novel.scss')
 
-require('./js/home.js')
+//dom ready
+document.addEventListener('DOMContentLoaded',function(){
+    require('./js/home.js')
+}, false);
+
 
 
 
