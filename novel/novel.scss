@@ -1,24 +1,35 @@
-html, body {  position: relative;  height: 100%;  width: 100%;  overflow-x: hidden;  }
+$padding:17px;//间距
+$gray:#aaaaaa;
+html, body {height: 100%;  width: 100%;  overflow-x: hidden;  }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #212121;
   font-size: 14px;
-  line-height: 1.5;
-  width: 100%;
-  -webkit-text-size-adjust: 100%;
-  background: #fff;
+  color:#222;
 }
 
-* {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+*, *:before, *:after {
+  /* 消除点击高亮效果 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  /* 根据个人需求添加 */
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;/* 让字体变得平滑*/
   -webkit-touch-callout: none;
 }
 
+ul,li{list-style: none}
+
 a, input, textarea, select {  outline: 0;  }
+a {  text-decoration: none;  color: #222;  }
+//a:visited{color: $gray}
 
-a {  text-decoration: none;  color: #2196f3;  }
+.fl{float: left}
+.fr{float: right}
+.gray{color:$gray}
 
-p {  margin: 1em 0;  }
+
+
+#wrapper{max-width:750px;margin: 0 auto}
+@import "./css/home";

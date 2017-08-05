@@ -1,0 +1,81 @@
+.bookinfo{
+  padding: $padding;
+  height: (300px/2);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  position: relative;
+  img.fpic{width:(173px/2);height:(230px/2);}
+  .desc{
+    h2{font-size: 16px;margin-bottom: 5px;}
+    padding:10px 14px 0;
+    p{line-height:1.6}
+  }
+  .read{
+    position: absolute;
+    right:$padding;
+    .readBtn{width: 90px;
+      border: 1px solid #189f17;
+      height: 32px;
+      border-radius: 4px;
+      background: #1aad19;
+      color:#fff;font-size: 13px;
+      display: inline-block;
+      line-height: 32px;
+      text-align: center;
+      &:active{
+        background: #179b16;
+        color:#a2d7a2
+      }
+    }
+  }
+
+}
+
+.description{
+  line-height:22px;
+  padding:5px $padding;
+  .last-desc{display: none}
+}
+
+.description.open{
+  .last-desc{display:inline}
+  .downarrow{display: none}
+}
+
+.downarrow{
+  background: url("./img/more@2x.png") center center no-repeat;
+  height:12px;
+  margin: 7px 0;
+  background-size:auto 50%;
+}
+
+.all-aritcle-list{
+  line-height: 50px;border-top:1px solid #f2f2f2;border-bottom: 1px solid #f2f2f2;
+  h3{display: inline;font-size: 16px;}
+  padding: 0 $padding;
+}
+
+.more-icon{
+  background: url("./img/more@2x.png") center center no-repeat;
+  background-size:100%;
+  width: 10px;
+  height: 6px;
+  display: inline-block;
+  transform: rotate(-90deg);
+  vertical-align: middle;
+}
+
+.new-list{
+  padding: 0 $padding;
+  line-height:50px;
+  ul{
+    border-bottom:1px solid #f2f2f2;
+    li{
+      border-top:1px solid #f2f2f2;
+    }
+  }
+
+}
