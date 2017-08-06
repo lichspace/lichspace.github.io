@@ -1,6 +1,6 @@
 .bookinfo{
   padding: $padding;
-  height: (300px/2);
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -14,8 +14,7 @@
     p{line-height:1.6}
   }
   .read{
-    position: absolute;
-    right:$padding;
+    margin-left: auto;
   }
 
 }
