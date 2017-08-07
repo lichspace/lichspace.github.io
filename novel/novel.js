@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded',function(){
     window.onscroll = function(){
         var tool = document.querySelector('#tools')
         if(!tool) return;
-
-        if(document.body.scrollTop>scroolTop){
+        console.log(document.body.scrollTop-scroolTop)
+        if(document.body.scrollTop-scroolTop>0&&document.body.scrollTop>10){
             tool.classList.remove('show')
         }else{
             tool.classList.add('show')
