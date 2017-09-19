@@ -27,6 +27,7 @@ class Gamepage extends React.Component {
     select=(n)=>{
         this.n =n;
         this.oneEnd()
+        this.result[n] = []
         this.data[n] = cyArr.slice(n*this.step,(n+1)*this.step)
         this.setState({timeout:0,text:"点击开始"})
     }
@@ -85,7 +86,7 @@ class Gamepage extends React.Component {
                 this.count.total++
                 if(r) this.count.right++
             }
-            this.resultTime[this.n] = this.state.timeout
+            this.resultTime[this.n] = this.state.timeout+1
             this.setState({text:text,correct:this.count.right+"/"+this.count.total})
             this.cyIndex++
         }
