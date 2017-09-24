@@ -5,22 +5,20 @@ class Gamepage extends React.Component {
         this.count = {right:0,total:0}
         this.cyIndex = 0;
         this.timerID = null
-        this.step = 13
+        this.step = 31
+        this.group = 6
         this.data = []
         this.running = false
+        this.timeout = 3*60
         this.state = {
             endOpen:false,
             timeout:0,
-            group0:"第1组",
-            group1:"第2组",
-            group2:"第3组",
-            group3:"第4组",
             end:false,
             text:"点击开始",
             correct:"0/0",
             buttonShow:false
         }
-        this.result = [[],[],[],[]]
+        this.result = []
         this.resultTime = []
     }
 
@@ -60,7 +58,7 @@ class Gamepage extends React.Component {
         this.timerID = setInterval(()=>{
 
             var t = ++this.state.timeout
-            if(t<60){
+            if(t<this.timeout){
                 this.setState({timeout:t})
             }else{
                 clearInterval(this.timerID)
@@ -105,7 +103,7 @@ class Gamepage extends React.Component {
                 if(v.correct) correct++
                 s+= `<li class="${v.correct?"":"red"}">${v.text}</li>`
             })
-            if(len) s+=`<li>正确率：${(correct/len).toFixed(2)}<br/>平均用时${(this.resultTime[n]/len).toFixed(2)}</li>`
+            if(len) s+=`<li>猜中：${(correct)}<br/>正确率：${(correct/len).toFixed(2)}<br/>平均用时${(this.resultTime[n]/len).toFixed(2)}</li>`
             s+="</ul>"
         })
 
@@ -114,14 +112,15 @@ class Gamepage extends React.Component {
     }
 
     render() {
+        var buttons=[];
+        for(let i=0;i<this.group;i++){
+            buttons.push(<button key={i} onClick={this.select.bind(this,i)}>{i+1+"组"}</button>)
+        }
         return (
             <div className={"GamePage "+(this.props.show?"":"hidden")}>
 
                 <div className="select">
-                    <button onClick={this.select.bind(this,0)}>{this.state.group0}</button>
-                    <button onClick={this.select.bind(this,1)}>{this.state.group1}</button>
-                    <button onClick={this.select.bind(this,2)}>{this.state.group2}</button>
-                    <button onClick={this.select.bind(this,3)}>{this.state.group3}</button>
+                    {buttons}
                 </div>
                 <div className="time">
                     计时：{this.state.timeout}s
