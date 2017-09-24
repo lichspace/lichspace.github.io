@@ -10,6 +10,7 @@ class Gamepage extends React.Component {
         this.data = []
         this.running = false
         this.timeout = 3*60
+        this.end = false
         this.state = {
             selected:null,
             endOpen:false,
@@ -25,6 +26,7 @@ class Gamepage extends React.Component {
 
     select=(n)=>{
         this.n =n;
+        this.end = false
         this.setState({selected:n})
         this.oneEnd()
         this.result[n] = []
@@ -63,6 +65,7 @@ class Gamepage extends React.Component {
             if(t<this.timeout){
                 this.setState({timeout:t})
             }else{
+                this.end = true
                 clearInterval(this.timerID)
             }
         },1000)
@@ -76,6 +79,9 @@ class Gamepage extends React.Component {
             alert("先选择一个分组")
             return
         }
+
+        //console.log(this.end)
+        if(this.end) return
 
         if(this.cyIndex>data.length-1){
             clearInterval(this.timerID)
