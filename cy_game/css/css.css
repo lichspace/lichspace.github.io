@@ -109,7 +109,7 @@ p.yindao span {
 
 .GamePage .select{ }
 .GamePage .select button{background: none;border: 1px solid #d45733;font-size: 2em;color:#d45733;display:inline;padding: 10px;margin:10px 20px}
-.GamePage .select button.cur{background:#009926}
+.GamePage .select button.cur{background:#009926;color:#fff}
 .GamePage .text{font-size:10em;letter-spacing: 20px;margin:10px 0 50px;color:#f5c200}
 .GamePage .time{font-size:2.5em;margin-top: 20px;}
 .GamePage .btn button{display:inline;width:130px;height:130px;border-radius:50%;border: none;background:#d45733;

@@ -11,6 +11,7 @@ class Gamepage extends React.Component {
         this.running = false
         this.timeout = 3*60
         this.state = {
+            selected:null,
             endOpen:false,
             timeout:0,
             end:false,
@@ -24,6 +25,7 @@ class Gamepage extends React.Component {
 
     select=(n)=>{
         this.n =n;
+        this.setState({selected:n})
         this.oneEnd()
         this.result[n] = []
         this.data[n] = cyArr.slice(n*this.step,(n+1)*this.step)
@@ -114,7 +116,7 @@ class Gamepage extends React.Component {
     render() {
         var buttons=[];
         for(let i=0;i<this.group;i++){
-            buttons.push(<button key={i} onClick={this.select.bind(this,i)}>{i+1+"组"}</button>)
+            buttons.push(<button className={this.state.selected==i?"cur":""} key={i} onClick={this.select.bind(this,i)}>{i+1+"组"}</button>)
         }
         return (
             <div className={"GamePage "+(this.props.show?"":"hidden")}>
