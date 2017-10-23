@@ -1,7 +1,9 @@
 let img = new Image();
 img.src = 'hoho.png';
+//img.src = "981F5D456F.jpeg"
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
+ctx.globalCompositeOperation="lighter";
 const gravity = 9.8
 
 class Pixel{
@@ -12,19 +14,64 @@ class Pixel{
         this.g = data.g
         this.b = data.b
         this.a = data.a
-        this.posY =  data.y
-        this.vx = 2//初始速度
-        this.bottom = canvas.height - data.y*Math.random()/100
+        this.rand = Math.random()
+
+        this.posX = data.x
+        this.posY =  data.y-2*canvas.width/2
+        this.radius = 40*Math.random()
+        this.vx = 2*this.rand//初始速度
+        this.bottom = canvas.height
+        //旋转
+        this.angle = 360*Math.random()
+
+        this.stop = 0
         //console.log(this.bottom)
         return this
     }
-    move(){
-        ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
+    move(x,y){
+        if(this.stop) {
+            ctx.fillRect(this.x, this.y, 1, 1);
+            return
+        }
         //let gray = (p.r+p.g+p.b)/3
-        this.vx +=3*Math.random()
-        this.posY+=this.vx
-        if(this.posY>this.bottom) this.posY = this.bottom
-        ctx.fillRect(this.x, this.posY, 2, 2);
+        ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
+        //ctx.fillStyle = 'yellow';
+        let diffx = x-this.posX
+        let diffy = y-this.posY
+        this.vx += this.rand
+        this.posY+= this.vx/10
+        this.posX += diffx/100
+        //var pos = this.circle()
+        if(this.posY>this.bottom){
+            this.posX = this.x
+            this.posY = this.y
+            this.stop = 1
+        }
+        ctx.fillRect(this.posX, this.posY, 1, 1);
+    }
+
+    circle(){
+        this.angle += 5
+        let x = this.posX//+this.radius*Math.sin(this.angle*Math.PI/180)
+        let y = this.posY//+this.radius*Math.cos(this.angle*Math.PI/180)
+        return {x,y}
+    }
+}
+
+class Mainmove{
+    constructor(data){
+        this.x = canvas.width/2
+        this.y = 0
+        this.vx = 2//初始速度
+        this.radius = 10
+    }
+
+    move(){
+        this.vx +=0.2
+        this.y+=this.vx
+        this.x += 5*Math.sin(this.y*Math.PI/180);
+        ctx.fillStyle = "red"
+        ctx.fillRect(this.x, this.y, 5, 5);
     }
 }
 
@@ -52,26 +99,29 @@ let getPixels = (step=1)=>{
             }
         }
     }
-    //console.log(pixels,pixArr)
     return pixArr
 }
 
 
 let particles = []
+let head = new Mainmove()
 img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
     particles= getPixels(1)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     console.log(particles.length)
-    setTimeout(animate,1500);
+    setTimeout(animate,300);
 };
 
 
 function animate()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    head.move()
     particles.forEach(p=>{
-        p.move()
+        p.move(head.x,head.y)
     })
+
     requestAnimationFrame(animate);
 }
