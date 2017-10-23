@@ -1,7 +1,8 @@
-var img = new Image();
+let img = new Image();
 img.src = 'hoho.png';
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+const gravity = 9.8
 
 class Pixel{
     constructor(data){
@@ -11,36 +12,39 @@ class Pixel{
         this.g = data.g
         this.b = data.b
         this.a = data.a
-        this.change =  0
-        this.speed = 4*(Math.random()*14+1)
+        this.posY =  data.y
+        this.vx = 2//初始速度
+        this.bottom = canvas.height - data.y*Math.random()/100
+        //console.log(this.bottom)
         return this
     }
     move(){
         ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
-        //var gray = (p.r+p.g+p.b)/3
-        //ctx.fillStyle = 'rgba(' + gray + ',' + gray + ',' + gray + ',' + (p.a / 255) + ')';
-        this.y+=this.speed
-        ctx.fillRect(this.x, this.y, 1, 1);
+        //let gray = (p.r+p.g+p.b)/3
+        this.vx +=3*Math.random()
+        this.posY+=this.vx
+        if(this.posY>this.bottom) this.posY = this.bottom
+        ctx.fillRect(this.x, this.posY, 2, 2);
     }
 }
 
 
 
-var getPixels = (step=1)=>{
-    var w = 400
-    var h = 400
-    var pixels =  ctx.getImageData(0, 0, w, h).data;
-    var pixArr = []
-    for(var x=1;x<=400;x+=step){
-        for(var y=1;y<=400;y+=step){
-            var pos = (x+y*400)*4
-            var r = pixels[pos]
-            var g = pixels[pos+1]
-            var b = pixels[pos+2]
-            var a = pixels[pos+3]
-            var thisPix = {x,y,r,g,b,a}
-            var threeClolor = r+g+b
-            var gray = threeClolor==0?0:threeClolor/3
+let getPixels = (step=1)=>{
+    let w = 400
+    let h = 400
+    let pixels =  ctx.getImageData(0, 0, w, h).data;
+    let pixArr = []
+    for(let x=1;x<=400;x+=step){
+        for(let y=1;y<=400;y+=step){
+            let pos = (x+y*400)*4
+            let r = pixels[pos]
+            let g = pixels[pos+1]
+            let b = pixels[pos+2]
+            let a = pixels[pos+3]
+            let thisPix = {x,y,r,g,b,a}
+            let threeClolor = r+g+b
+            let gray = threeClolor==0?0:threeClolor/3
             //console.log(thisPix,gray)
             if(a>100&&gray<100){
                 //console.log(r,g,b,a,gray)
@@ -53,13 +57,12 @@ var getPixels = (step=1)=>{
 }
 
 
-var particles = []
+let particles = []
 img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
     particles= getPixels(1)
     console.log(particles.length)
-    //render(particles,3)
     setTimeout(animate,1500);
 };
 
