@@ -7,30 +7,31 @@ ctx.globalCompositeOperation="lighter";
 const backgroundColor = "#000"
 
 let p0 = {x:200,y:0}
-let p1 = {x:400,y:300}
+let p1 = {x:500,y:400}
 let p2 = {x:-100,y:50}
-let p3 = {x:200,y:350}
+let p3 = {x:300,y:500}
 
 
 class Pixel{
     constructor(data){
         this.x = data.x
         this.y = data.y
-        this.r = data.r
+        //this.r = data.r
         // this.g = data.g
         // this.b = data.b
         // this.a = data.a
         this.rand = 0.0001+Math.random()
+        this.stop = 0
 
-        this.posX = data.x
-        this.posY =  data.y-300
+        this.posX = 0
+        this.posY =  0
         this.radius = 40*Math.random()
         //旋转
-        this.angle = 360*Math.random()
         this.t = 0
-        this.add = this.rand/100
+        this.add = 0.001+this.rand/100
+
         this.cubeArr = [
-            {x:this.posX,y:this.posY},
+            {x:this.x,y:this.y-300},
             pointOffset(p1,30),
             pointOffset(p2,55),
             pointOffset(p3)
@@ -41,24 +42,46 @@ class Pixel{
     move(x,y){
         //let gray = (p.r+p.g+p.b)/3
         //ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
-        this.t += this.add
-        if(this.t>2) this.t=0
-        ctx.fillStyle = '#a24a2c';
-        let p = cubeBezier(...this.cubeArr, this.t)
-        ctx.fillRect(p.x, p.y, 2, 2);
+        if(!this.stop){
+            this.t += this.add
+            if(this.t<1.1){
+                ctx.fillStyle = '#ffec0b';
+                let p = cubeBezier(...this.cubeArr, this.t)
+                this.posX = p.x
+                this.posY = p.y
+            }else{
+                this.toSelf()
+            }
+        }
+        ctx.fillRect(this.posX,this.posY,1,1);
+    }
+
+    toSelf(){
+        let dx = this.x - this.posX
+        let dy = this.y - this.posY
+        if(Math.abs(dx)<2&&Math.abs(dy)<2){
+            this.posX = this.x
+            this.posY = this.y
+            this.stop = 1
+        }else{
+            let divd = 50
+            this.posX+=dx/divd
+            this.posY+=dy/divd
+        }
+
     }
 
 }
 
 
 let getPixels = (step=1)=>{
-    let w = 400
-    let h = 400
+    let w = canvas.width
+    let h = canvas.height
     let pixels =  ctx.getImageData(0, 0, w, h).data;
     let pixArr = []
-    for(let x=1;x<=400;x+=step){
-        for(let y=1;y<=400;y+=step){
-            let pos = (x+y*400)*4
+    for(let x=1;x<=w;x+=step){
+        for(let y=1;y<=h;y+=step){
+            let pos = (x+y*w)*4
             let r = pixels[pos]
             let g = pixels[pos+1]
             let b = pixels[pos+2]
@@ -98,17 +121,15 @@ img.onload = function() {
 function animate()
 {
     clearScreen()
-    ctx.fillStyle="#000"
+    ctx.fillStyle=backgroundColor
     ctx.fillRect(0,0,canvas.width,canvas.height)
-    particles.forEach(p=>{
-        p.move()
-    })
+    particles.forEach(p=>p.move())
     requestAnimationFrame(animate);
 }
 
 
 /*
-TOOL
+:::::::::::::::::::::TOOL
  */
 function pointOffset(pos,coefficient=5) {
     let x = pos.x+(Math.random()-0.5)*coefficient
