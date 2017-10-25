@@ -104,7 +104,7 @@ let particles = []
 img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
-    particles= getPixels(2)
+    particles= getPixels(1)
     //clearScreen()
     console.log(particles.length)
     //fuzhu()
