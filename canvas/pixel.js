@@ -31,7 +31,7 @@ class Pixel{
         this.add = 0.001+this.rand/100
 
         this.cubeArr = [
-            {x:this.x,y:this.y-300},
+            {x:this.x,y:this.y-canvas.height},
             pointOffset(p1,30),
             pointOffset(p2,55),
             pointOffset(p3)
@@ -39,13 +39,12 @@ class Pixel{
 
         return this
     }
-    move(x,y){
+    move(){
         //let gray = (p.r+p.g+p.b)/3
         //ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
-        if(!this.stop){
+        if(this.stop==0){
             this.t += this.add
             if(this.t<1.1){
-                ctx.fillStyle = '#ffec0b';
                 let p = cubeBezier(...this.cubeArr, this.t)
                 this.posX = p.x
                 this.posY = p.y
@@ -53,6 +52,7 @@ class Pixel{
                 this.toSelf()
             }
         }
+        ctx.fillStyle = '#ffec0b';
         ctx.fillRect(this.posX,this.posY,1,1);
     }
 
@@ -104,16 +104,11 @@ let particles = []
 img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
-    particles= getPixels(3)
+    particles= getPixels(2)
     clearScreen()
     console.log(particles.length)
-    ctx.fillStyle = "red"
-    ctx.fillRect(p0.x, p0.y, 4, 4);
-    ctx.fillRect(p1.x, p1.y, 4, 4);
-    ctx.fillRect(p2.x, p2.y, 4, 4);
-    ctx.fillRect(p3.x, p3.y, 4, 4);
-    ctx.fillStyle = "blue"
-    drawBezier(p0,p1,p2,p3)
+    //fuzhu()
+
     setTimeout(animate,300);
 };
 
@@ -131,6 +126,16 @@ function animate()
 /*
 :::::::::::::::::::::TOOL
  */
+function fuzhu() {
+    ctx.fillStyle = "red"
+    ctx.fillRect(p0.x, p0.y, 4, 4);
+    ctx.fillRect(p1.x, p1.y, 4, 4);
+    ctx.fillRect(p2.x, p2.y, 4, 4);
+    ctx.fillRect(p3.x, p3.y, 4, 4);
+    drawBezier(p0,p1,p2,p3)
+    ctx.fillStyle = "blue"
+}
+
 function pointOffset(pos,coefficient=5) {
     let x = pos.x+(Math.random()-0.5)*coefficient
     let y = pos.y+(Math.random()-0.5)*coefficient
@@ -142,8 +147,7 @@ function clearScreen() {
 }
 
 function cubeBezier(p0, c0, c1, p1, t) {
-    //var p = new Point();
-    var nt = (1 - t);
+    let nt = (1 - t);
     let x = nt * nt * nt * p0.x + 3 * nt * nt * t * c0.x + 3 * nt * t * t * c1.x + t * t * t * p1.x;
     let y = nt * nt * nt * p0.y + 3 * nt * nt * t * c0.y + 3 * nt * t * t * c1.y + t * t * t * p1.y;
     return {x,y};
