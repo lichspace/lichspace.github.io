@@ -4,77 +4,51 @@ img.src = 'hoho.png';
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 ctx.globalCompositeOperation="lighter";
-const gravity = 9.8
+const backgroundColor = "#000"
+
+let p0 = {x:200,y:0}
+let p1 = {x:400,y:300}
+let p2 = {x:-100,y:50}
+let p3 = {x:200,y:350}
+
 
 class Pixel{
     constructor(data){
         this.x = data.x
         this.y = data.y
         this.r = data.r
-        this.g = data.g
-        this.b = data.b
-        this.a = data.a
-        this.rand = Math.random()
+        // this.g = data.g
+        // this.b = data.b
+        // this.a = data.a
+        this.rand = 0.0001+Math.random()
 
         this.posX = data.x
-        this.posY =  data.y-2*canvas.width/2
+        this.posY =  data.y-300
         this.radius = 40*Math.random()
-        this.vx = 2*this.rand//初始速度
-        this.bottom = canvas.height
         //旋转
         this.angle = 360*Math.random()
+        this.t = 0
+        this.add = this.rand/100
+        this.cubeArr = [
+            {x:this.posX,y:this.posY},
+            pointOffset(p1,30),
+            pointOffset(p2,55),
+            pointOffset(p3)
+            ]
 
-        this.stop = 0
-        //console.log(this.bottom)
         return this
     }
     move(x,y){
-        if(this.stop) {
-            ctx.fillRect(this.x, this.y, 1, 1);
-            return
-        }
         //let gray = (p.r+p.g+p.b)/3
-        ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
-        //ctx.fillStyle = 'yellow';
-        let diffx = x-this.posX
-        let diffy = y-this.posY
-        this.vx += this.rand
-        this.posY+= this.vx/10
-        this.posX += diffx/100
-        //var pos = this.circle()
-        if(this.posY>this.bottom){
-            this.posX = this.x
-            this.posY = this.y
-            this.stop = 1
-        }
-        ctx.fillRect(this.posX, this.posY, 1, 1);
+        //ctx.fillStyle = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + (this.a / 255) + ')';
+        this.t += this.add
+        if(this.t>2) this.t=0
+        ctx.fillStyle = '#a24a2c';
+        let p = cubeBezier(...this.cubeArr, this.t)
+        ctx.fillRect(p.x, p.y, 2, 2);
     }
 
-    circle(){
-        this.angle += 5
-        let x = this.posX//+this.radius*Math.sin(this.angle*Math.PI/180)
-        let y = this.posY//+this.radius*Math.cos(this.angle*Math.PI/180)
-        return {x,y}
-    }
 }
-
-class Mainmove{
-    constructor(data){
-        this.x = canvas.width/2
-        this.y = 0
-        this.vx = 2//初始速度
-        this.radius = 10
-    }
-
-    move(){
-        this.vx +=0.2
-        this.y+=this.vx
-        this.x += 5*Math.sin(this.y*Math.PI/180);
-        ctx.fillStyle = "red"
-        ctx.fillRect(this.x, this.y, 5, 5);
-    }
-}
-
 
 
 let getPixels = (step=1)=>{
@@ -104,24 +78,59 @@ let getPixels = (step=1)=>{
 
 
 let particles = []
-let head = new Mainmove()
 img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
-    particles= getPixels(1)
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles= getPixels(3)
+    clearScreen()
     console.log(particles.length)
+    ctx.fillStyle = "red"
+    ctx.fillRect(p0.x, p0.y, 4, 4);
+    ctx.fillRect(p1.x, p1.y, 4, 4);
+    ctx.fillRect(p2.x, p2.y, 4, 4);
+    ctx.fillRect(p3.x, p3.y, 4, 4);
+    ctx.fillStyle = "blue"
+    drawBezier(p0,p1,p2,p3)
     setTimeout(animate,300);
 };
 
 
 function animate()
 {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    head.move()
+    clearScreen()
+    ctx.fillStyle="#000"
+    ctx.fillRect(0,0,canvas.width,canvas.height)
     particles.forEach(p=>{
-        p.move(head.x,head.y)
+        p.move()
     })
-
     requestAnimationFrame(animate);
+}
+
+
+/*
+TOOL
+ */
+function pointOffset(pos,coefficient=5) {
+    let x = pos.x+(Math.random()-0.5)*coefficient
+    let y = pos.y+(Math.random()-0.5)*coefficient
+    return {x,y}
+}
+
+function clearScreen() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function cubeBezier(p0, c0, c1, p1, t) {
+    //var p = new Point();
+    var nt = (1 - t);
+    let x = nt * nt * nt * p0.x + 3 * nt * nt * t * c0.x + 3 * nt * t * t * c1.x + t * t * t * p1.x;
+    let y = nt * nt * nt * p0.y + 3 * nt * nt * t * c0.y + 3 * nt * t * t * c1.y + t * t * t * p1.y;
+    return {x,y};
+}
+
+function drawBezier(p0, p1, p2, p3) {
+    ctx.beginPath();
+    ctx.moveTo(p0.x, p0.y);
+    ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y);
+    ctx.stroke();
 }
