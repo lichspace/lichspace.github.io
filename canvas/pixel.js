@@ -105,11 +105,10 @@ img.onload = function() {
     ctx.drawImage(img, 0, 0);
     img.style.display = 'none';
     particles= getPixels(2)
-    clearScreen()
+    //clearScreen()
     console.log(particles.length)
     //fuzhu()
-
-    setTimeout(animate,300);
+    setTimeout(animate,1000);
 };
 
 
