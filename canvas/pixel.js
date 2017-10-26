@@ -1,6 +1,5 @@
 let img = new Image();
-img.src = 'hoho.png';
-//img.src = "981F5D456F.jpeg"
+img.src = 'IMG_2311.JPG';
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 ctx.globalCompositeOperation="lighter";
@@ -52,7 +51,7 @@ class Pixel{
                 this.toSelf()
             }
         }
-        ctx.fillStyle = '#ffec0b';
+        ctx.fillStyle = '#ff934a';
         ctx.fillRect(this.posX,this.posY,1,1);
     }
 
@@ -108,15 +107,16 @@ img.onload = function() {
     //clearScreen()
     console.log(particles.length)
     //fuzhu()
-    setTimeout(animate,1000);
+    animate()
+    //setTimeout(animate,0);
 };
 
 
 function animate()
 {
     clearScreen()
-    ctx.fillStyle=backgroundColor
-    ctx.fillRect(0,0,canvas.width,canvas.height)
+    //ctx.fillStyle=backgroundColor
+    //ctx.fillRect(0,0,canvas.width,canvas.height)
     particles.forEach(p=>p.move())
     requestAnimationFrame(animate);
 }
