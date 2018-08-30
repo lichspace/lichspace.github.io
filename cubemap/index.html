@@ -15,12 +15,13 @@
 <!--全景素材-->
 <!--https://www.pexels.com/photo/architecture-buildings-business-capital-417382/-->
 <script>
+    let img ="./textures/7166.jpg_wh1200.jpg"
     let camera, scene, renderer;
     let count = 0;
     let lon = 0, lat = 0;
     let phi = 0, theta = 0;
     let textureLoader = new THREE.TextureLoader();
-    textureLoader.load( './textures/7166.jpg_wh1200.jpg', function ( texture ) {
+    textureLoader.load( img, function ( texture ) {
         texture.mapping = THREE.UVMzpping;
         init( texture );
         animate();
