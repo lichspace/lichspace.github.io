@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cubemap</title>
+    <style>body {
+        background-color: #000000;
+        margin: 0;
+        overflow: hidden;
+    }
+    </style>
+    <script src="../node_modules/three/build/three.min.js"></script>
+</head>
+<body>
+<!--全景素材-->
+<!--https://www.pexels.com/photo/architecture-buildings-business-capital-417382/-->
+<script>
+    let camera, scene, renderer;
+    let count = 0;
+    let lon = 0, lat = 0;
+    let phi = 0, theta = 0;
+    let textureLoader = new THREE.TextureLoader();
+    textureLoader.load( './textures/7166.jpg_wh1200.jpg', function ( texture ) {
+        texture.mapping = THREE.UVMzpping;
+        init( texture );
+        animate();
+    } );
+    function init( texture ) {
+        camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+        scene = new THREE.Scene();
+        let mesh = new THREE.Mesh( new THREE.SphereBufferGeometry( 500, 32, 16 ), new THREE.MeshBasicMaterial( { map: texture } ) );
+        mesh.geometry.scale( - 1, 1, 1 );
+        scene.add( mesh );
+        renderer = new THREE.WebGLRenderer( { antialias: true } );
+        renderer.setPixelRatio( window.devicePixelRatio );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+        document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+        document.addEventListener( 'wheel', onDocumentMouseWheel, false );
+        window.addEventListener( 'resize', onWindowResized, false );
+    }
+    function onWindowResized(  ) {
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    }
+    function onDocumentMouseDown( event ) {
+        event.preventDefault();
+        onPointerDownPointerX = event.clientX;
+        onPointerDownPointerY = event.clientY;
+        onPointerDownLon = lon;
+        onPointerDownLat = lat;
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+    }
+    function onDocumentMouseMove( event ) {
+        lon = ( event.clientX - onPointerDownPointerX ) * 0.1 + onPointerDownLon;
+        lat = ( event.clientY - onPointerDownPointerY ) * 0.1 + onPointerDownLat;
+    }
+    function onDocumentMouseUp(  ) {
+        document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
+        document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
+    }
+    function onDocumentMouseWheel( event ) {
+        let fov = camera.fov + event.deltaY * 0.05;
+        camera.fov = THREE.Math.clamp( fov, 10, 75 );
+        camera.updateProjectionMatrix();
+    }
+    function animate() {
+        requestAnimationFrame( animate );
+        render();
+    }
+    function render() {
+        //lon += .15;
+        lat = Math.max( - 85, Math.min( 85, lat ) );
+        phi = THREE.Math.degToRad( 90 - lat );
+        theta = THREE.Math.degToRad( lon );
+
+        camera.position.x = 100 * Math.sin( phi ) * Math.cos( theta );
+        camera.position.y = 100 * Math.cos( phi );
+        camera.position.z = 100 * Math.sin( phi ) * Math.sin( theta );
+        camera.lookAt( scene.position );
+
+        count ++;
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
