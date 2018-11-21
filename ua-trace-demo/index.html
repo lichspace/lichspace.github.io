@@ -39,7 +39,7 @@
 
     mytrace.subscribe(function (data,type) {
         console.log(data,type)
-        let html = '{\n'
+        var html = '{\n'
         for(var key in data){
             html+='  '+key+':'+data[key]+'\n'
         }
