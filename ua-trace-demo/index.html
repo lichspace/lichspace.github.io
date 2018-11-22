@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ua-trace</title>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.js"></script>
     <style>
         h1{text-align: center;}
         .box{background: #3fb9f9;padding: 10px;margin: 20px auto;width: 400px;border-radius: 3px;box-shadow: 0 0 5px rgba(0,0,0,.2);
@@ -45,6 +46,13 @@
 
     mytrace.subscribe(function (data,type) {
         console.log(data,type)
+        showObject(data,type)
+        //return data  //will report as GET
+        return false
+    })
+
+
+    function  showObject(data,type) {
         var html = '{\n'
         for(var key in data){
             html+='  '+key+':'+data[key]+'\n'
@@ -52,9 +60,7 @@
         html+='}\n'
         html+='type:'+type
         document.querySelector('.info').innerHTML = html
-        //return data  //will report as GET
-        return false
-    })
+    }
 
 </script>
 </body>
