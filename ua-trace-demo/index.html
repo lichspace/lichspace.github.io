@@ -37,12 +37,11 @@
     <p data-ua-trace='{"position":"bottom"}'>this is a ua-trace explore test</p>
 </div>
 
-<script src="ua-trace.js"></script>
+<script src="https://unpkg.com/ua-trace@1.0.9/dist/ua-trace.js"></script>
 <script>
     var height = screen.height
     document.querySelector('.bottom').style.marginTop = height+'px'
-    var mytrace = new UATrace({
-        _url:'xxx',
+    var mytrace = new UATrace({url:'xxx'},{
         id:9521,
         name:'ua-trace'
     })
