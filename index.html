@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>index</title>
-    <style>
-        #root{
-            max-width: 900px;
-            margin: 0 auto;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,900" rel="stylesheet">
+    <link href="./home/style.css" rel="stylesheet">
+    <link href="./home/flipdown.css" rel="stylesheet">
 </head>
 <body>
+<div class="clock">
+    <h1>LichSpace home page</h1>
+    <p>
+        人生无根蒂，飘如陌上尘。分散逐风转，此已非常身。盛年不重来，一日难再晨。及时当勉励，岁月不待人。
+    </p>
+    <div id="flipdown" class="flipdown"></div>
+</div>
 <div id="root"></div>
-<script src="home/index.js"></script>
+<script src="./home/index.js"></script>
+<script src="./home/flipdown.js"></script>
+<script src="./home/clock.js"></script>
 </body>
 </html>
