@@ -1,10 +1,11 @@
 module.exports = {
     entry: {
-        novel:["./novel/novel.js"]
+        novel:["./novel/novel.js"],
+        pick:["./pick.test.js"],
     },
     output: {
         path: __dirname + "/dist",
-        filename: "novel.js",
+        filename: "[name].js",
         publicPath: "/dist/"
     },
     module: {

@@ -29,6 +29,7 @@
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
+    "pick-object-alias": "^1.0.0",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^10.0.0",
     "rc-upload": "^2.6.0",
