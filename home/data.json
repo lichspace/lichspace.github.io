@@ -47,6 +47,12 @@
       "url":"https://zendev.com/2019/01/15/frontend-development-topics-to-learn-in-2019.html"
     }
   ],
+  "style":[
+    {
+      "title":"javascript code style",
+      "url":"https://github.com/airbnb/javascript"
+    }
+  ],
   "2019 document":[
     {
       "title":"2019 plan",
