@@ -5,7 +5,7 @@
 ```javascript
 select {
   -webkit-appearance: none;
-  -webkit-border-radius: 0px;
+  -webkit-border-radius: 0;
 }
 ```
 
