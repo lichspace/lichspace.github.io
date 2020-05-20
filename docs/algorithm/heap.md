@@ -1,5 +1,5 @@
 # JavaScript最大堆排序
-```
+```javascript
 /**
  * javascript最大堆排序
  * 相关资料：
