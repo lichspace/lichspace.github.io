@@ -22,3 +22,6 @@ if (app.isPackaged) {
 > <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0"> <dict> <key>com.apple.security.cs.allow-unsigned-executable-memory</key> <true/> <key>com.apple.security.cs.disable-library-validation</key> <true/> <key>com.apple.security.cs.allow-jit</key> > > <true/> </dict> </plist>
 > 2. In forge.config.js add this to osxSign:
 >       optionsForFile: (filePath) => { // Here, we keep it simple and return a single entitlements.plist file. // You can use this callback to map different sets of entitlements // to specific files in your packaged app. return { entitlements: './entitlements.plist' }; }
+
+## antd 库全局监听导致性能损失
+e.stopPropagation();
