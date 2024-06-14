@@ -45,12 +45,12 @@ e.stopPropagation();
 总结： 图片尺寸 5325 * 2571  
 1. 显示速度对比， 150ms=>50ms左右
 2. 整体速度对比
-优化前： 158+108+125 = 391
-优化后： 34+48 = 82   还有保存延后执行，次数变少
+  * 优化前： 158+108+125 = 391
+  * 优化后： 34+48 = 82   还有保存延后执行，次数变少
 
 避免了大图连续快速操作的卡顿问题
 
 <img width="696" alt="优化前" src="https://github.com/lichspace/lichspace.github.io/assets/5037114/8082d79c-1ffb-4f1f-9e70-49c8fdcbdbf7">
-![优化后](https://github.com/lichspace/lichspace.github.io/assets/5037114/c100885d-700a-43cf-91ff-af672f1f6ee8)
+<img width="696" alt="优化后" src="https://github.com/lichspace/lichspace.github.io/assets/5037114/c100885d-700a-43cf-91ff-af672f1f6ee8">
 
 
