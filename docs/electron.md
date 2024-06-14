@@ -36,20 +36,21 @@ e.stopPropagation();
 1. 前处理改为、后处理时间，尽快的显示，目前大图能达到50ms左右
 2. 避免react抖动，也就避免了UI影响, 减少约30ms
 3. 避免pixijs实时渲染，改为手动更新
-4. debounce 实时保存， 这样可以减少保存次数， 降低密集操作带来的性能问题， 依然有问题，不过几率小了很多
-5. 历史记录改为canvas快照而非Imagedata， 这样速度更快，不过代价是恢复历史记录要慢一点
-6. 保存的toDataURL改为toBlob， 同样后端改造为http发送。 同步改异步，略有优势
-7. 修复窗口关闭，内存没释问题
+4. 针对填充，采用局部更新数据
+5. debounce 实时保存， 这样可以减少保存次数， 降低密集操作带来的性能问题， 依然有问题，不过几率小了很多
+6. 历史记录改为canvas快照而非Imagedata， 这样速度更快，不过代价是恢复历史记录要慢一点
+7. 保存的toDataURL改为toBlob， 同样后端改造为http发送。 同步改异步，略有优势
+8. 修复窗口关闭，内存没释问题
 
 总结： 图片尺寸 5325 * 2571  
 1. 显示速度对比， 150ms=>50ms左右
 2. 整体速度对比
 优化前： 158+108+125 = 391
-优化后： 71+138 = 209   还有保存延后执行，次数变少
+优化后： 34+48 = 82   还有保存延后执行，次数变少
 
 避免了大图连续快速操作的卡顿问题
 
 <img width="696" alt="优化前" src="https://github.com/lichspace/lichspace.github.io/assets/5037114/8082d79c-1ffb-4f1f-9e70-49c8fdcbdbf7">
-<img width="595" alt="优化后" src="https://github.com/lichspace/lichspace.github.io/assets/5037114/e7fe6a1b-f6c1-4a3c-8de4-911e1938f345">
+![优化后](https://github.com/lichspace/lichspace.github.io/assets/5037114/c100885d-700a-43cf-91ff-af672f1f6ee8)
 
 
