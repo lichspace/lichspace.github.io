@@ -54,3 +54,5 @@ e.stopPropagation();
 <img width="696" alt="优化后" src="https://github.com/lichspace/lichspace.github.io/assets/5037114/c100885d-700a-43cf-91ff-af672f1f6ee8">
 
 
+## sqlitewindows下安装
+py -m pip install setuptools
