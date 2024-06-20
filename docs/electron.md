@@ -56,3 +56,6 @@ e.stopPropagation();
 
 ## sqlitewindows下安装
 py -m pip install setuptools
+
+## 关于piantman png透明图片显示黑色背景问题
+主要取决于透明部分是否为 [255,255,255,0] ,一般情况下为[0,0,0,0]
