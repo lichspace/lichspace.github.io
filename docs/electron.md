@@ -63,3 +63,10 @@ py -m pip install setuptools
 ## 历史记录占内存优化
 历史记录采用canvas保存，随操作增加内存增量明显，特别是大图情况。
 解决办法：采用增量rect区域canvas保存。
+
+## opencvjs 自行构建打包
+```
+https://docs.opencv.org/4.x/d4/da1/tutorial_js_setup.html
+emcmake emsdk/python/3.9.2_64bit/bin/python3  ./opencv/platforms/js/build_js.py build_js
+手动修改配置： opencv/platforms/js/opencv_js.config.py
+```
