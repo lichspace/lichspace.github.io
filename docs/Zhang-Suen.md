@@ -103,3 +103,4 @@ function step2(src, cb) {
 ## 资源
 rust [Zhang-Suen 图像骨架提取算法](https://github.com/okaneco/skeletonize/tree/master)
 nodejs https://github.com/olivierlando/zhang-suen
+其他语言 https://rosettacode.org/wiki/Zhang-Suen_thinning_algorithm#JavaScript
