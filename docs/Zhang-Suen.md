@@ -1,6 +1,6 @@
 # Zhang-Suen 图像骨架提取算法
 ##js opencv实现
-```
+```js
 import { debugImg } from "../opencv/debugImg.js";
 
 const getVal = (x, y, mat) => mat.ucharPtr(y, x)[0];
