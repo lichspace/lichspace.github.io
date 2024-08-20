@@ -82,20 +82,4 @@ export const fast_skeletonize = (binary) => {
   }
 }
 
-export const canRemove = (binary, x, y) => {
-  let remove = false;
-  for (let step = 0; step < 2; step++) {
-    const first_pass = step === 0;
-
-    const around = neighbors.map(([offy, offx]) => getVal(y + offy, x + offx, binary) / 255);
-    let neighbval = lut[around[0] + 2 * around[1] + 4 * around[2] + 8 * around[3] + 16 * around[4] + 32 * around[5] + 64 * around[6] + 128 * around[7]];
-    console.log(around, neighbval);
-
-    if ((neighbval == 3) || (neighbval == 1 && first_pass) || (neighbval == 2 && !first_pass)) {
-      remove = true;
-    }
-  }
-
-  return remove;
-}
 ```
